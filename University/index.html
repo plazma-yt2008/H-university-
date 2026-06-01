@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horizon University</title>
+
+  <!-- Google Fonts: Playfair Display + DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       CSS VARIABLES — Light & Dark Theme
+    ============================================= */
+    :root {
+      --bg:        #f7f8fb;
+      --bg-card:   #ffffff;
+      --bg-nav:    rgba(247,248,251,0.92);
+      --text:      #18253a;
+      --text-muted:#607090;
+      --accent:    #1a3a6b;
+      --accent2:   #2e5baa;
+      --border:    #e2e8f0;
+      --shadow:    0 4px 32px rgba(26,58,107,0.08);
+      --shadow-md: 0 8px 48px rgba(26,58,107,0.13);
+      --radius:    16px;
+      --nav-h:     72px;
+    }
+
+    [data-theme="dark"] {
+      --bg:        #0f1623;
+      --bg-card:   #18253a;
+      --bg-nav:    rgba(15,22,35,0.95);
+      --text:      #e8edf5;
+      --text-muted:#8ba0be;
+      --accent:    #4a7fd4;
+      --accent2:   #6b9de8;
+      --border:    #243352;
+      --shadow:    0 4px 32px rgba(0,0,0,0.32);
+      --shadow-md: 0 8px 48px rgba(0,0,0,0.42);
+    }
+
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.35s, color 0.35s;
+      overflow-x: hidden;
+    }
+
+    img { display: block; width: 100%; object-fit: cover; }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* =============================================
+       NAVIGATION
+    ============================================= */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      height: var(--nav-h);
+      background: var(--bg-nav);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      gap: 1.5rem;
+      transition: background 0.35s, border-color 0.35s;
+    }
+
+    /* Logo */
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-shrink: 0;
+    }
+    .nav-logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+    .nav-logo-text span { color: var(--accent); }
+
+    /* Spacer */
+    .nav-spacer { flex: 1; }
+
+    /* Nav links */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent);
+      background: rgba(74,127,212,0.09);
+    }
+
+    /* Controls */
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-sm {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.42rem 0.9rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-sm:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* Language select */
+    .lang-select {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.42rem 0.7rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 1.8rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23607090'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.6rem center;
+    }
+    .lang-select:hover { border-color: var(--accent); }
+
+    /* Hamburger (mobile) */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* Mobile menu */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      background: var(--bg-nav);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.2rem 2rem 1.5rem;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 998;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-mobile a:hover,
+    .nav-mobile a.active {
+      color: var(--accent);
+      background: rgba(74,127,212,0.09);
+    }
+    .nav-mobile-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* =============================================
+       PAGE SYSTEM
+    ============================================= */
+    .page { display: none; padding-top: var(--nav-h); }
+    .page.active { display: block; }
+
+    /* =============================================
+       HERO — University
+    ============================================= */
+    .hero-university {
+      position: relative;
+      height: clamp(480px, 75vh, 700px);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(26,58,107,0.72) 0%, rgba(26,58,107,0.38) 60%, transparent 100%),
+        /* SVG campus silhouette placeholder */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 600'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23b8cce8'/%3E%3Cstop offset='1' stop-color='%23dce8f5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23sky)' width='1440' height='600'/%3E%3C!-- Ground --%3E%3Crect fill='%23c8d9b0' y='480' width='1440' height='120'/%3E%3C!-- Main building --%3E%3Crect fill='%23e8e0d0' x='480' y='200' width='480' height='280'/%3E%3Crect fill='%23d4c8a8' x='480' y='200' width='480' height='20'/%3E%3C!-- Columns --%3E%3Crect fill='%23d4c8a8' x='520' y='240' width='24' height='240'/%3E%3Crect fill='%23d4c8a8' x='580' y='240' width='24' height='240'/%3E%3Crect fill='%23d4c8a8' x='640' y='240' width='24' height='240'/%3E%3Crect fill='%23d4c8a8' x='700' y='240' width='24' height='240'/%3E%3Crect fill='%23d4c8a8' x='760' y='240' width='24' height='240'/%3E%3Crect fill='%23d4c8a8' x='820' y='240' width='24' height='240'/%3E%3Crect fill='%23d4c8a8' x='880' y='240' width='24' height='240'/%3E%3C!-- Dome --%3E%3Cellipse fill='%23c8bcA0' cx='720' cy='200' rx='80' ry='60'/%3E%3Cellipse fill='%23d4c8a8' cx='720' cy='205' rx='60' ry='40'/%3E%3C!-- Windows --%3E%3Crect fill='%238bb0d4' x='550' y='300' width='40' height='50'/%3E%3Crect fill='%238bb0d4' x='620' y='300' width='40' height='50'/%3E%3Crect fill='%238bb0d4' x='690' y='300' width='40' height='50'/%3E%3Crect fill='%238bb0d4' x='760' y='300' width='40' height='50'/%3E%3Crect fill='%238bb0d4' x='830' y='300' width='40' height='50'/%3E%3C!-- Door --%3E%3Crect fill='%236090b8' x='680' y='380' width='80' height='100'/%3E%3C!-- Side buildings --%3E%3Crect fill='%23ddd8c8' x='240' y='300' width='220' height='180'/%3E%3Crect fill='%23ddd8c8' x='980' y='300' width='220' height='180'/%3E%3C!-- Trees --%3E%3Cellipse fill='%2378a860' cx='380' cy='440' rx='48' ry='60'/%3E%3Crect fill='%23604830' x='374' y='480' width='12' height='30'/%3E%3Cellipse fill='%2368984e' cx='1060' cy='440' rx='48' ry='60'/%3E%3Crect fill='%23604830' x='1054' y='480' width='12' height='30'/%3E%3Cellipse fill='%2388b870' cx='200' cy='470' rx='36' ry='48'/%3E%3Crect fill='%23604830' x='195' y='500' width='10' height='20'/%3E%3Cellipse fill='%2388b870' cx='1240' cy='470' rx='36' ry='48'/%3E%3Crect fill='%23604830' x='1235' y='500' width='10' height='20'/%3E%3C!-- Path --%3E%3Cellipse fill='%23e8ddc8' cx='720' cy='510' rx='100' ry='20'/%3E%3Crect fill='%23e8ddc8' x='695' y='480' width='50' height='120'/%3E%3C/svg%3E") center/cover no-repeat;
+    }
+
+    [data-theme="dark"] .hero-bg {
+      background:
+        linear-gradient(120deg, rgba(10,18,35,0.85) 0%, rgba(26,58,107,0.55) 60%, transparent 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 600'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%230d1a2e'/%3E%3Cstop offset='1' stop-color='%231a2a48'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23sky)' width='1440' height='600'/%3E%3Crect fill='%23182b18' y='480' width='1440' height='120'/%3E%3Crect fill='%23252018' x='480' y='200' width='480' height='280'/%3E%3Crect fill='%231e1a14' x='480' y='200' width='480' height='20'/%3E%3Crect fill='%231e1a14' x='520' y='240' width='24' height='240'/%3E%3Crect fill='%231e1a14' x='580' y='240' width='24' height='240'/%3E%3Crect fill='%231e1a14' x='640' y='240' width='24' height='240'/%3E%3Crect fill='%231e1a14' x='700' y='240' width='24' height='240'/%3E%3Crect fill='%231e1a14' x='760' y='240' width='24' height='240'/%3E%3Crect fill='%231e1a14' x='820' y='240' width='24' height='240'/%3E%3Crect fill='%231e1a14' x='880' y='240' width='24' height='240'/%3E%3Cellipse fill='%231a1610' cx='720' cy='200' rx='80' ry='60'/%3E%3Crect fill='%232a5890' x='550' y='300' width='40' height='50'/%3E%3Crect fill='%232a5890' x='620' y='300' width='40' height='50'/%3E%3Crect fill='%232a5890' x='690' y='300' width='40' height='50'/%3E%3Crect fill='%232a5890' x='760' y='300' width='40' height='50'/%3E%3Crect fill='%232a5890' x='830' y='300' width='40' height='50'/%3E%3Crect fill='%231e4878' x='680' y='380' width='80' height='100'/%3E%3Crect fill='%23201c14' x='240' y='300' width='220' height='180'/%3E%3Crect fill='%23201c14' x='980' y='300' width='220' height='180'/%3E%3Cellipse fill='%23224818' cx='380' cy='440' rx='48' ry='60'/%3E%3Crect fill='%23302010' x='374' y='480' width='12' height='30'/%3E%3Cellipse fill='%23224818' cx='1060' cy='440' rx='48' ry='60'/%3E%3Crect fill='%23302010' x='1054' y='480' width='12' height='30'/%3E%3C/svg%3E") center/cover no-repeat;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 clamp(1.5rem, 7vw, 8rem);
+      max-width: 700px;
+    }
+    .hero-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 1.1rem;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      transform: translateY(22px);
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+    .hero-desc {
+      font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.7;
+      max-width: 480px;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-cta {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeUp 0.7s 0.65s forwards;
+    }
+    .btn-primary {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.75rem 1.8rem;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.25s;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(26,58,107,0.35);
+    }
+    .btn-outline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.75rem 1.8rem;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.25s;
+      backdrop-filter: blur(4px);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.85);
+      transform: translateY(-2px);
+    }
+
+    /* =============================================
+       SECTIONS COMMON
+    ============================================= */
+    section {
+      padding: clamp(3.5rem, 8vw, 6rem) clamp(1.5rem, 7vw, 8rem);
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.75;
+      max-width: 680px;
+    }
+    .section-divider {
+      width: 52px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(.4,0,.2,1), transform 0.65s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* =============================================
+       ABOUT BLOCK
+    ============================================= */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+      margin-top: 2.5rem;
+    }
+    .about-text p {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1.1rem;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-img-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      aspect-ratio: 4/3;
+      background: var(--border);
+    }
+    /* SVG stand-in for about image */
+    .about-img-svg {
+      width: 100%;
+      height: 100%;
+      min-height: 240px;
+    }
+
+    /* =============================================
+       FACTS
+    ============================================= */
+    .facts-section {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 7vw, 8rem);
+    }
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .fact-item {
+      text-align: center;
+      color: #fff;
+      padding: 1.5rem 1rem;
+    }
+    .fact-number {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .fact-label {
+      font-size: 0.88rem;
+      font-weight: 400;
+      opacity: 0.82;
+      letter-spacing: 0.04em;
+    }
+
+    /* =============================================
+       FACULTIES
+    ============================================= */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem 1.6rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;
+      cursor: default;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+    }
+    .card-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(74,127,212,0.12), rgba(46,91,170,0.08));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.1rem;
+    }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* =============================================
+       GALLERY
+    ============================================= */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .gallery-item {
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--border);
+      transition: transform 0.28s, box-shadow 0.28s;
+    }
+    .gallery-item:first-child {
+      grid-column: span 2;
+      aspect-ratio: 16/7;
+    }
+    .gallery-item:hover {
+      transform: scale(1.02);
+      box-shadow: var(--shadow-md);
+    }
+    .gallery-item svg { width: 100%; height: 100%; }
+
+    /* =============================================
+       HERO — About Us
+    ============================================= */
+    .hero-aboutus {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%, #4a90d9 100%);
+      padding: clamp(3.5rem, 8vw, 7rem) clamp(1.5rem, 7vw, 8rem);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-aboutus::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.07) 0%, transparent 60%);
+    }
+    .hero-aboutus .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    .hero-aboutus .hero-title { text-align: center; }
+    .hero-aboutus .hero-desc { text-align: center; max-width: 100%; }
+    .hero-aboutus .hero-label { display: block; text-align: center; }
+    .hero-aboutus .hero-cta { justify-content: center; }
+
+    /* =============================================
+       MISSION
+    ============================================= */
+    .mission-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2.5rem, 5vw, 5rem);
+      align-items: start;
+      margin-top: 2.5rem;
+    }
+    .mission-text p {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .mission-text p:last-child { margin-bottom: 0; }
+    .mission-values {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .value-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .value-item:hover { border-color: var(--accent); transform: translateX(4px); }
+    .value-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .value-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .value-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       TEAM
+    ============================================= */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;
+      text-align: center;
+    }
+    .team-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+    }
+    .team-avatar {
+      width: 100%;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: #fff;
+      font-weight: 700;
+    }
+    .team-info { padding: 1.2rem 1rem 1.4rem; }
+    .team-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .team-role {
+      font-size: 0.84rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* =============================================
+       CONTACTS
+    ============================================= */
+    .contacts-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
+      margin-top: 2.5rem;
+    }
+    .contact-list { display: flex; flex-direction: column; gap: 1.2rem; }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.1rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.25s;
+    }
+    .contact-item:hover { border-color: var(--accent); }
+    .contact-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(74,127,212,0.12), rgba(46,91,170,0.08));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+    .contact-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .contact-value {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .map-placeholder {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      aspect-ratio: 4/3;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .map-placeholder svg { width: 100%; height: 100%; }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.6);
+      padding: 2.5rem clamp(1.5rem, 7vw, 8rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.88rem;
+    }
+    footer .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* =============================================
+       KEYFRAMES
+    ============================================= */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 900px) {
+      .facts-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid,
+      .mission-layout,
+      .contacts-layout { grid-template-columns: 1fr; }
+      .about-img-wrap { order: -1; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item:first-child { grid-column: span 2; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links,
+      .nav-controls { display: none !important; }
+      .nav-hamburger { display: flex; }
+      .facts-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item:first-child { grid-column: span 1; aspect-ratio: 4/3; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav>
+    <div class="nav-logo">
+      <div class="nav-logo-icon">H</div>
+      <span class="nav-logo-text"><span>Horizon</span> University</span>
+    </div>
+    <div class="nav-spacer"></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" class="active" onclick="showPage('university',this)" data-i18n="nav_university">About University</a></li>
+      <li><a href="#" onclick="showPage('aboutus',this)" data-i18n="nav_aboutus">About Us</a></li>
+    </ul>
+    <div class="nav-controls">
+      <select class="lang-select" onchange="setLang(this.value)" aria-label="Language">
+        <option value="en">EN</option>
+        <option value="ru">RU</option>
+        <option value="uz">UZ</option>
+      </select>
+      <button class="btn-sm" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
+    </div>
+    <!-- Mobile hamburger -->
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="nav-mobile" id="navMobile">
+    <a href="#" class="active" onclick="showPage('university',this);toggleMobile()" data-i18n="nav_university">About University</a>
+    <a href="#" onclick="showPage('aboutus',this);toggleMobile()" data-i18n="nav_aboutus">About Us</a>
+    <div class="nav-mobile-controls">
+      <select class="lang-select" onchange="setLang(this.value)" aria-label="Language">
+        <option value="en">EN</option>
+        <option value="ru">RU</option>
+        <option value="uz">UZ</option>
+      </select>
+      <button class="btn-sm" onclick="toggleTheme()" id="themeBtnMobile">🌙 Dark</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PAGE: ABOUT UNIVERSITY
+  ============================================================ -->
+  <main class="page active" id="page-university">
+
+    <!-- Hero -->
+    <section class="hero-university" style="padding:0;">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <span class="hero-label" data-i18n="hero_label">Est. 1948 · Tashkent, Uzbekistan</span>
+        <h1 class="hero-title" data-i18n="hero_title">Horizon University</h1>
+        <p class="hero-desc" data-i18n="hero_desc">Shaping tomorrow's leaders through excellence in research, innovation, and global engagement.</p>
+        <div class="hero-cta">
+          <button class="btn-primary" data-i18n="hero_cta1">Explore Programs</button>
+          <button class="btn-outline" data-i18n="hero_cta2">Virtual Campus Tour</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Block -->
+    <section>
+      <div class="reveal">
+        <div class="section-label" data-i18n="about_label">Our Story</div>
+        <h2 class="section-title" data-i18n="about_title">A Legacy of Excellence</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p data-i18n="about_p1">Founded in 1948, Horizon University has stood at the forefront of higher education in Central Asia for over seven decades. From its earliest days as a modest research institute, it has grown into a comprehensive university that serves more than 18,000 students across a broad range of disciplines.</p>
+          <p data-i18n="about_p2">Our campuses combine historic architecture with modern research facilities, creating an environment that honors tradition while embracing innovation. We are committed to cultivating critical thinkers, creative professionals, and responsible global citizens.</p>
+          <p data-i18n="about_p3">Horizon University's graduates occupy leadership positions in government, business, science, and the arts around the world — a testament to the enduring quality of education delivered here in Tashkent.</p>
+        </div>
+        <div class="about-img-wrap reveal">
+          <!-- SVG stand-in: stylized library interior -->
+          <svg class="about-img-svg" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="lib-floor" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#c8b888"/>
+                <stop offset="1" stop-color="#a89060"/>
+              </linearGradient>
+              <linearGradient id="lib-ceil" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e8dcc8"/>
+                <stop offset="1" stop-color="#d8c8a8"/>
+              </linearGradient>
+            </defs>
+            <rect fill="#f0e8d8" width="480" height="360"/>
+            <rect fill="url(#lib-ceil)" width="480" height="60"/>
+            <rect fill="url(#lib-floor)" y="300" width="480" height="60"/>
+            <!-- Bookshelves -->
+            <rect fill="#7a5838" x="20" y="60" width="60" height="240"/>
+            <rect fill="#8a6848" x="22" y="65" width="56" height="20"/>
+            <rect fill="#6b3820" x="22" y="90" width="8" height="110"/>
+            <rect fill="#a84820" x="32" y="90" width="6" height="115"/>
+            <rect fill="#2858a8" x="40" y="88" width="10" height="108"/>
+            <rect fill="#286830" x="52" y="92" width="8" height="112"/>
+            <rect fill="#a89820" x="62" y="90" width="7" height="110"/>
+            <rect fill="#6b3820" x="22" y="210" width="8" height="80"/>
+            <rect fill="#288888" x="32" y="213" width="10" height="78"/>
+            <rect fill="#883828" x="44" y="210" width="8" height="82"/>
+            <rect fill="#484838" x="54" y="212" width="12" height="80"/>
+            <!-- Right shelf -->
+            <rect fill="#7a5838" x="400" y="60" width="60" height="240"/>
+            <rect fill="#8a6848" x="402" y="65" width="56" height="20"/>
+            <rect fill="#a82820" x="402" y="90" width="9" height="110"/>
+            <rect fill="#2848a8" x="413" y="92" width="7" height="108"/>
+            <rect fill="#286030" x="422" y="90" width="11" height="112"/>
+            <rect fill="#888820" x="435" y="88" width="8" height="110"/>
+            <rect fill="#682828" x="445" y="90" width="9" height="110"/>
+            <rect fill="#488888" x="402" y="210" width="8" height="80"/>
+            <rect fill="#884820" x="412" y="213" width="10" height="78"/>
+            <rect fill="#282888" x="424" y="210" width="8" height="82"/>
+            <rect fill="#6a3838" x="434" y="212" width="20" height="80"/>
+            <!-- Central table -->
+            <rect fill="#5a3818" x="150" y="240" width="180" height="12" rx="4"/>
+            <rect fill="#4a2810" x="165" y="252" width="12" height="50"/>
+            <rect fill="#4a2810" x="303" y="252" width="12" height="50"/>
+            <!-- Lamp -->
+            <rect fill="#a88848" x="228" y="195" width="4" height="50"/>
+            <ellipse fill="#f8d870" cx="230" cy="192" rx="28" ry="12"/>
+            <ellipse fill="#f8f090" cx="230" cy="192" rx="18" ry="7" opacity=".7"/>
+            <!-- Books on table -->
+            <rect fill="#2858c8" x="170" y="225" width="35" height="16" rx="2"/>
+            <rect fill="#a82828" x="212" y="226" width="30" height="15" rx="2"/>
+            <rect fill="#286028" x="250" y="225" width="40" height="16" rx="2"/>
+            <rect fill="#888820" x="298" y="226" width="25" height="15" rx="2"/>
+            <!-- Window -->
+            <rect fill="#b8d0f0" x="190" y="80" width="100" height="130" rx="4"/>
+            <rect fill="none" stroke="#c8b888" stroke-width="4" x="190" y="80" width="100" height="130" rx="4"/>
+            <line stroke="#c8b888" stroke-width="3" x1="240" y1="80" x2="240" y2="210"/>
+            <line stroke="#c8b888" stroke-width="3" x1="190" y1="145" x2="290" y2="145"/>
+            <!-- Light rays -->
+            <polygon fill="#f8f0d8" points="190,80 290,80 290,210 190,210" opacity=".25"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Facts -->
+    <div class="facts-section">
+      <div class="facts-grid">
+        <div class="fact-item reveal">
+          <div class="fact-number" data-i18n="fact1_n">1948</div>
+          <div class="fact-label" data-i18n="fact1_l">Year Founded</div>
+        </div>
+        <div class="fact-item reveal">
+          <div class="fact-number" data-i18n="fact2_n">18,500+</div>
+          <div class="fact-label" data-i18n="fact2_l">Students Enrolled</div>
+        </div>
+        <div class="fact-item reveal">
+          <div class="fact-number" data-i18n="fact3_n">12</div>
+          <div class="fact-label" data-i18n="fact3_l">Faculties</div>
+        </div>
+        <div class="fact-item reveal">
+          <div class="fact-number" data-i18n="fact4_n">86</div>
+          <div class="fact-label" data-i18n="fact4_l">International Partners</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Faculties -->
+    <section>
+      <div class="reveal">
+        <div class="section-label" data-i18n="fac_label">Academic Excellence</div>
+        <h2 class="section-title" data-i18n="fac_title">Our Faculties</h2>
+        <div class="section-divider"></div>
+        <p class="section-lead" data-i18n="fac_lead">Twelve faculties spanning sciences, humanities, and professional disciplines — each dedicated to rigorous scholarship and practical impact.</p>
+      </div>
+      <div class="cards-grid">
+        <div class="card reveal"><div class="card-icon">🔬</div><div class="card-title" data-i18n="fac1_t">Natural Sciences</div><div class="card-desc" data-i18n="fac1_d">Physics, chemistry, biology and earth sciences with state-of-the-art laboratory facilities.</div></div>
+        <div class="card reveal"><div class="card-icon">💻</div><div class="card-title" data-i18n="fac2_t">Computer Science & IT</div><div class="card-desc" data-i18n="fac2_d">Software engineering, AI, cybersecurity and data science programs aligned with industry needs.</div></div>
+        <div class="card reveal"><div class="card-icon">⚖️</div><div class="card-title" data-i18n="fac3_t">Law & Political Science</div><div class="card-desc" data-i18n="fac3_d">Training the next generation of legal scholars, diplomats and public policy leaders.</div></div>
+        <div class="card reveal"><div class="card-icon">📊</div><div class="card-title" data-i18n="fac4_t">Economics & Business</div><div class="card-desc" data-i18n="fac4_d">Finance, management and entrepreneurship with a strong focus on the regional economy.</div></div>
+        <div class="card reveal"><div class="card-icon">🏛️</div><div class="card-title" data-i18n="fac5_t">Humanities</div><div class="card-desc" data-i18n="fac5_d">History, philosophy, literature and linguistics fostering cultural understanding and critical thought.</div></div>
+        <div class="card reveal"><div class="card-icon">🏥</div><div class="card-title" data-i18n="fac6_t">Medicine & Health</div><div class="card-desc" data-i18n="fac6_d">Clinical training, biomedical research and public health programmes in partnership with leading hospitals.</div></div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section style="padding-top:0;">
+      <div class="reveal">
+        <div class="section-label" data-i18n="gal_label">Campus Life</div>
+        <h2 class="section-title" data-i18n="gal_title">Gallery</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="gallery-grid">
+        <!-- Gallery SVG placeholders with different scenes -->
+        <div class="gallery-item reveal">
+          <svg viewBox="0 0 640 270" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="gs1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6090d0"/><stop offset="1" stop-color="#90b8e8"/></linearGradient></defs>
+            <rect fill="url(#gs1)" width="640" height="270"/>
+            <rect fill="#c8d8a8" y="210" width="640" height="60"/>
+            <rect fill="#e8e0d0" x="180" y="80" width="280" height="130"/>
+            <rect fill="#c8b888" x="180" y="80" width="280" height="15"/>
+            <rect fill="#b8a878" x="240" y="110" width="20" height="100" opacity=".8"/>
+            <rect fill="#b8a878" x="280" y="110" width="20" height="100" opacity=".8"/>
+            <rect fill="#b8a878" x="320" y="110" width="20" height="100" opacity=".8"/>
+            <rect fill="#b8a878" x="360" y="110" width="20" height="100" opacity=".8"/>
+            <ellipse fill="#c8b888" cx="320" cy="78" rx="45" ry="32"/>
+            <rect fill="#7090c0" x="200" y="135" width="35" height="45"/>
+            <rect fill="#7090c0" x="250" y="135" width="35" height="45"/>
+            <rect fill="#7090c0" x="305" y="135" width="35" height="45"/>
+            <rect fill="#7090c0" x="355" y="135" width="35" height="45"/>
+            <rect fill="#5878a8" x="285" y="175" width="70" height="35"/>
+            <ellipse fill="#5a8840" cx="120" cy="195" rx="40" ry="52"/>
+            <rect fill="#604820" x="114" y="225" width="12" height="25"/>
+            <ellipse fill="#6a9848" cx="520" cy="195" rx="40" ry="52"/>
+            <rect fill="#604820" x="514" y="225" width="12" height="25"/>
+          </svg>
+        </div>
+        <div class="gallery-item reveal">
+          <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#d8e8f8" width="300" height="225"/>
+            <rect fill="#e8f0e0" y="180" width="300" height="45"/>
+            <rect fill="#f0e8d8" x="60" y="70" width="180" height="110"/>
+            <rect fill="#e8d8b8" x="60" y="70" width="180" height="12"/>
+            <rect fill="#b8c8e8" x="85" y="100" width="40" height="80"/>
+            <rect fill="#b8c8e8" x="140" y="100" width="40" height="80"/>
+            <rect fill="#b8c8e8" x="195" y="100" width="30" height="80"/>
+            <ellipse fill="#4a7840" cx="40" cy="170" rx="28" ry="38"/>
+            <rect fill="#3a2810" x="36" y="190" width="8" height="18"/>
+            <ellipse fill="#5a8848" cx="265" cy="168" rx="26" ry="36"/>
+            <rect fill="#3a2810" x="261" y="188" width="8" height="18"/>
+            <rect fill="#f8f0e0" x="120" y="155" width="60" height="25"/>
+          </svg>
+        </div>
+        <div class="gallery-item reveal">
+          <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#f0e8d8" width="300" height="225"/>
+            <rect fill="#d8d0c0" y="0" width="300" height="20"/>
+            <rect fill="#c8c0a8" x="0" y="20" width="20" height="205"/>
+            <rect fill="#c8c0a8" x="280" y="20" width="20" height="205"/>
+            <rect fill="#e0d8c8" x="20" y="20" width="260" height="205"/>
+            <!-- Bookshelves -->
+            <rect fill="#8a6028" x="30" y="30" width="240" height="18" rx="3"/>
+            <rect fill="#6a3020" x="35" y="50" width="8" height="60"/>
+            <rect fill="#2848c8" x="45" y="52" width="7" height="58"/>
+            <rect fill="#288038" x="54" y="50" width="10" height="60"/>
+            <rect fill="#c83020" x="66" y="52" width="6" height="58"/>
+            <rect fill="#806828" x="74" y="50" width="9" height="60"/>
+            <rect fill="#2888a8" x="85" y="52" width="7" height="58"/>
+            <rect fill="#8a3888" x="94" y="50" width="8" height="60"/>
+            <rect fill="#2a6028" x="104" y="52" width="10" height="58"/>
+            <rect fill="#a84828" x="116" y="50" width="7" height="60"/>
+            <rect fill="#284898" x="125" y="52" width="8" height="58"/>
+            <rect fill="#6a8828" x="135" y="50" width="9" height="60"/>
+            <!-- Shelf 2 -->
+            <rect fill="#8a6028" x="30" y="118" width="240" height="18" rx="3"/>
+            <rect fill="#286858" x="35" y="138" width="9" height="55"/>
+            <rect fill="#c86028" x="46" y="140" width="7" height="53"/>
+            <rect fill="#282888" x="55" y="138" width="10" height="55"/>
+            <rect fill="#a82848" x="67" y="140" width="8" height="53"/>
+            <rect fill="#48a828" x="77" y="138" width="9" height="55"/>
+            <rect fill="#c8a828" x="88" y="140" width="7" height="53"/>
+            <rect fill="#883028" x="97" y="138" width="11" height="55"/>
+            <!-- Reading person silhouette -->
+            <ellipse fill="#5a3828" cx="220" cy="155" rx="18" ry="18"/>
+            <rect fill="#5a3828" x="205" y="172" width="30" height="50" rx="6"/>
+            <rect fill="#f0e8d0" x="208" y="185" width="24" height="18" rx="3"/>
+          </svg>
+        </div>
+        <div class="gallery-item reveal">
+          <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="gs4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#90b8f0"/><stop offset="1" stop-color="#c8e0f8"/></linearGradient></defs>
+            <rect fill="url(#gs4)" width="300" height="225"/>
+            <rect fill="#9acc88" y="185" width="300" height="40"/>
+            <!-- Lab building -->
+            <rect fill="#e8e4d8" x="40" y="90" width="220" height="95"/>
+            <rect fill="#d8d0c0" x="40" y="90" width="220" height="18"/>
+            <rect fill="#90b0d8" x="60" y="118" width="40" height="67"/>
+            <rect fill="#90b0d8" x="120" y="118" width="40" height="67"/>
+            <rect fill="#90b0d8" x="180" y="118" width="40" height="67"/>
+            <rect fill="#6890c8" x="120" y="155" width="60" height="30"/>
+            <rect fill="#c8c0a8" x="0" y="155" width="40" height="70"/>
+            <rect fill="#c8c0a8" x="260" y="155" width="40" height="70"/>
+            <!-- Path -->
+            <rect fill="#d8cc98" x="130" y="185" width="40" height="40"/>
+            <!-- Trees -->
+            <ellipse fill="#5a9848" cx="25" cy="168" rx="22" ry="30"/>
+            <rect fill="#4a2810" x="21" y="188" width="8" height="17"/>
+            <ellipse fill="#6aaa58" cx="275" cy="165" rx="22" ry="30"/>
+            <rect fill="#4a2810" x="271" y="185" width="8" height="17"/>
+          </svg>
+        </div>
+        <div class="gallery-item reveal">
+          <svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#1a2840" width="300" height="225"/>
+            <!-- Night sky -->
+            <circle fill="#f8f8e8" cx="40" cy="30" r="2" opacity=".9"/>
+            <circle fill="#f8f8e8" cx="120" cy="18" r="1.5" opacity=".8"/>
+            <circle fill="#f8f8e8" cx="200" cy="25" r="2" opacity=".7"/>
+            <circle fill="#f8f8e8" cx="270" cy="40" r="1.5" opacity=".9"/>
+            <circle fill="#f8f8e8" cx="80" cy="55" r="1" opacity=".6"/>
+            <circle fill="#f8f8e8" cx="160" cy="10" r="1" opacity=".8"/>
+            <circle fill="#ffe890" cx="250" cy="15" r="5"/>
+            <!-- Moon -->
+            <circle fill="#f8f0a0" cx="260" cy="28" r="16"/>
+            <circle fill="#1a2840" cx="268" cy="24" r="12"/>
+            <!-- University at night -->
+            <rect fill="#2a3850" x="60" y="120" width="180" height="105"/>
+            <rect fill="#383c28" y="190" width="300" height="35"/>
+            <!-- Lit windows -->
+            <rect fill="#f8d860" x="80" y="138" width="28" height="22" rx="2"/>
+            <rect fill="#f8d860" x="126" y="138" width="28" height="22" rx="2"/>
+            <rect fill="#c8d0f0" x="172" y="138" width="28" height="22" rx="2"/>
+            <rect fill="#f8d860" x="80" y="175" width="28" height="22" rx="2"/>
+            <rect fill="#c8d0f0" x="126" y="175" width="28" height="22" rx="2"/>
+            <rect fill="#f8d860" x="172" y="175" width="28" height="22" rx="2"/>
+            <!-- Dome glow -->
+            <ellipse fill="#3050a8" cx="150" cy="120" rx="45" ry="28"/>
+            <ellipse fill="#f0e0a0" cx="150" cy="120" rx="6" ry="8" opacity=".6"/>
+            <!-- Lamp posts -->
+            <rect fill="#8898b0" x="30" y="155" width="4" height="50"/>
+            <circle fill="#f8e890" cx="32" cy="152" r="7"/>
+            <rect fill="#8898b0" x="266" y="155" width="4" height="50"/>
+            <circle fill="#f8e890" cx="268" cy="152" r="7"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-logo" data-i18n="nav_logo">Horizon University</div>
+      <span data-i18n="footer_copy">© 2024 Horizon University. All rights reserved.</span>
+    </footer>
+  </main>
+
+  <!-- ============================================================
+       PAGE: ABOUT US
+  ============================================================ -->
+  <main class="page" id="page-aboutus">
+
+    <!-- Hero -->
+    <div class="hero-aboutus">
+      <div class="hero-content">
+        <span class="hero-label" data-i18n="au_hero_label">People & Mission</span>
+        <h1 class="hero-title" data-i18n="au_hero_title">About Us</h1>
+        <p class="hero-desc" data-i18n="au_hero_desc">A dedicated team of educators, researchers, and administrators united by a single purpose: advancing human knowledge and shaping a better future.</p>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="document.getElementById('contacts').scrollIntoView({behavior:'smooth'})" data-i18n="au_hero_cta">Contact Us</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission -->
+    <section>
+      <div class="reveal">
+        <div class="section-label" data-i18n="mis_label">Why We Exist</div>
+        <h2 class="section-title" data-i18n="mis_title">Our Mission & Values</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="mission-layout">
+        <div class="mission-text reveal">
+          <p data-i18n="mis_p1">At Horizon University, our mission is to create, preserve, and disseminate knowledge in the service of society. We believe that education is not simply the transfer of information — it is the cultivation of wisdom, character, and the capacity for lifelong learning.</p>
+          <p data-i18n="mis_p2">We are committed to an inclusive environment where students of all backgrounds can discover their potential. Our interdisciplinary approach encourages collaboration across departments, cultures, and borders, ensuring our graduates are prepared for the complexities of a connected world.</p>
+          <p data-i18n="mis_p3">Through cutting-edge research, community engagement, and global partnerships, Horizon University strives to address the most pressing challenges of our time — from climate change to public health, from digital transformation to social equity.</p>
+        </div>
+        <div class="mission-values reveal">
+          <div class="value-item">
+            <div class="value-icon">🎓</div>
+            <div><div class="value-title" data-i18n="val1_t">Academic Excellence</div><div class="value-text" data-i18n="val1_d">Rigorous standards and a culture of scholarly curiosity in every program we offer.</div></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">🌐</div>
+            <div><div class="value-title" data-i18n="val2_t">Global Perspective</div><div class="value-text" data-i18n="val2_d">Partnerships with 86 universities worldwide bring the world to our doorstep.</div></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">🤝</div>
+            <div><div class="value-title" data-i18n="val3_t">Inclusivity</div><div class="value-text" data-i18n="val3_d">Every student deserves equal access to opportunity, support, and recognition.</div></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">💡</div>
+            <div><div class="value-title" data-i18n="val4_t">Innovation</div><div class="value-text" data-i18n="val4_d">We champion new ideas, entrepreneurial thinking, and applied research.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section style="background: var(--bg-card); padding-top: clamp(3rem,6vw,5rem); padding-bottom: clamp(3rem,6vw,5rem);">
+      <div class="reveal">
+        <div class="section-label" data-i18n="team_label">Leadership</div>
+        <h2 class="section-title" data-i18n="team_title">Our Team</h2>
+        <div class="section-divider"></div>
+        <p class="section-lead" data-i18n="team_lead">Dedicated professionals driving Horizon University's vision forward every day.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#1a3a6b,#2e5baa);">AK</div>
+          <div class="team-info">
+            <div class="team-name" data-i18n="t1_name">Dr. Aziz Karimov</div>
+            <div class="team-role" data-i18n="t1_role">Rector</div>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#2e5baa,#4a7fd4);">SR</div>
+          <div class="team-info">
+            <div class="team-name" data-i18n="t2_name">Prof. Sabohat Rakhimova</div>
+            <div class="team-role" data-i18n="t2_role">Vice-Rector for Academics</div>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#1a5a4b,#2e8a70);">TY</div>
+          <div class="team-info">
+            <div class="team-name" data-i18n="t3_name">Dr. Timur Yusupov</div>
+            <div class="team-role" data-i18n="t3_role">Head of Research</div>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#5a2a6b,#8a4aaa);">NI</div>
+          <div class="team-info">
+            <div class="team-name" data-i18n="t4_name">Dr. Nilufar Ismoilova</div>
+            <div class="team-role" data-i18n="t4_role">Dean of International Relations</div>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#5a3a1a,#a87040);">BM</div>
+          <div class="team-info">
+            <div class="team-name" data-i18n="t5_name">Bekzod Mirzaev</div>
+            <div class="team-role" data-i18n="t5_role">Director of Admissions</div>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#1a4a5a,#2a7a90);">ZX</div>
+          <div class="team-info">
+            <div class="team-name" data-i18n="t6_name">Zulfiya Xasanova</div>
+            <div class="team-role" data-i18n="t6_role">Chief Communications Officer</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacts -->
+    <section id="contacts">
+      <div class="reveal">
+        <div class="section-label" data-i18n="con_label">Get in Touch</div>
+        <h2 class="section-title" data-i18n="con_title">Contact Information</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="contacts-layout">
+        <div class="contact-list reveal">
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <div class="contact-label" data-i18n="con_email_l">Email</div>
+              <div class="contact-value">info@horizon.uz</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-label" data-i18n="con_phone_l">Phone</div>
+              <div class="contact-value">+998 71 235 00 00</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-label" data-i18n="con_addr_l">Address</div>
+              <div class="contact-value" data-i18n="con_addr_v">15 University Boulevard, Tashkent, Uzbekistan 100174</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <div class="contact-label" data-i18n="con_hours_l">Office Hours</div>
+              <div class="contact-value" data-i18n="con_hours_v">Mon – Fri, 09:00 – 18:00</div>
+            </div>
+          </div>
+        </div>
+        <!-- Map placeholder -->
+        <div class="map-placeholder reveal">
+          <svg viewBox="0 0 440 330" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#e8f0e0" width="440" height="330"/>
+            <!-- Streets -->
+            <rect fill="#fff" x="0" y="80" width="440" height="22"/>
+            <rect fill="#fff" x="0" y="170" width="440" height="22"/>
+            <rect fill="#fff" x="0" y="260" width="440" height="22"/>
+            <rect fill="#fff" x="80" y="0" width="22" height="330"/>
+            <rect fill="#fff" x="200" y="0" width="22" height="330"/>
+            <rect fill="#fff" x="320" y="0" width="22" height="330"/>
+            <!-- Blocks -->
+            <rect fill="#d8dcc8" x="102" y="0" width="98" height="80" rx="4"/>
+            <rect fill="#d0d8c0" x="222" y="0" width="98" height="80" rx="4"/>
+            <rect fill="#d8dcc8" x="102" y="102" width="98" height="68" rx="4"/>
+            <rect fill="#d0d8c0" x="342" y="102" width="98" height="68" rx="4"/>
+            <rect fill="#d8dcc8" x="102" y="192" width="98" height="68" rx="4"/>
+            <rect fill="#c8e0c8" x="222" y="192" width="98" height="68" rx="4"/>
+            <rect fill="#d8dcc8" x="342" y="192" width="98" height="68" rx="4"/>
+            <!-- University block highlight -->
+            <rect fill="#b8cce8" x="222" y="102" width="98" height="68" rx="6"/>
+            <rect fill="none" stroke="#1a3a6b" stroke-width="3" x="222" y="102" width="98" height="68" rx="6"/>
+            <!-- Pin -->
+            <circle fill="#1a3a6b" cx="271" cy="136" r="14"/>
+            <circle fill="#fff" cx="271" cy="136" r="6"/>
+            <polygon fill="#1a3a6b" points="271,155 262,136 280,136"/>
+            <!-- Labels -->
+            <text x="271" y="98" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#1a3a6b" font-weight="bold">Horizon University</text>
+            <!-- Park -->
+            <ellipse fill="#98c870" cx="40" cy="225" rx="32" ry="28"/>
+            <ellipse fill="#78b050" cx="40" cy="225" rx="18" ry="16" opacity=".6"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-logo" data-i18n="nav_logo">Horizon University</div>
+      <span data-i18n="footer_copy">© 2024 Horizon University. All rights reserved.</span>
+    </footer>
+  </main>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* =============================================
+       PAGE NAVIGATION
+    ============================================= */
+    function showPage(id, link) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      // Update active link state
+      document.querySelectorAll('.nav-links a, .nav-mobile a').forEach(a => a.classList.remove('active'));
+      if (link) {
+        // mark both desktop & mobile links
+        document.querySelectorAll(`[onclick*="'${id}'"]`).forEach(a => a.classList.add('active'));
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Retrigger scroll reveal for newly visible page
+      setTimeout(checkReveal, 100);
+    }
+
+    /* =============================================
+       DARK / LIGHT THEME
+    ============================================= */
+    let isDark = false;
+    function toggleTheme() {
+      isDark = !isDark;
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      const label = isDark ? '☀️ Light' : '🌙 Dark';
+      document.getElementById('themeBtn').textContent = label;
+      document.getElementById('themeBtnMobile').textContent = label;
+    }
+
+    /* =============================================
+       MOBILE MENU
+    ============================================= */
+    let mobileOpen = false;
+    function toggleMobile() {
+      mobileOpen = !mobileOpen;
+      document.getElementById('navMobile').classList.toggle('open', mobileOpen);
+    }
+
+    /* =============================================
+       SCROLL REVEAL
+    ============================================= */
+    function checkReveal() {
+      const els = document.querySelectorAll('.page.active .reveal');
+      els.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 60) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', checkReveal, { passive: true });
+    window.addEventListener('resize', checkReveal, { passive: true });
+    // Initial check
+    setTimeout(checkReveal, 120);
+
+    /* =============================================
+       I18N — TRANSLATIONS
+    ============================================= */
+    const translations = {
+      en: {
+        nav_logo: "Horizon University",
+        nav_university: "About University",
+        nav_aboutus: "About Us",
+        hero_label: "Est. 1948 · Tashkent, Uzbekistan",
+        hero_title: "Horizon University",
+        hero_desc: "Shaping tomorrow's leaders through excellence in research, innovation, and global engagement.",
+        hero_cta1: "Explore Programs",
+        hero_cta2: "Virtual Campus Tour",
+        about_label: "Our Story",
+        about_title: "A Legacy of Excellence",
+        about_p1: "Founded in 1948, Horizon University has stood at the forefront of higher education in Central Asia for over seven decades. From its earliest days as a modest research institute, it has grown into a comprehensive university that serves more than 18,000 students across a broad range of disciplines.",
+        about_p2: "Our campuses combine historic architecture with modern research facilities, creating an environment that honors tradition while embracing innovation. We are committed to cultivating critical thinkers, creative professionals, and responsible global citizens.",
+        about_p3: "Horizon University's graduates occupy leadership positions in government, business, science, and the arts around the world — a testament to the enduring quality of education delivered here in Tashkent.",
+        fact1_n: "1948", fact1_l: "Year Founded",
+        fact2_n: "18,500+", fact2_l: "Students Enrolled",
+        fact3_n: "12", fact3_l: "Faculties",
+        fact4_n: "86", fact4_l: "International Partners",
+        fac_label: "Academic Excellence",
+        fac_title: "Our Faculties",
+        fac_lead: "Twelve faculties spanning sciences, humanities, and professional disciplines — each dedicated to rigorous scholarship and practical impact.",
+        fac1_t: "Natural Sciences", fac1_d: "Physics, chemistry, biology and earth sciences with state-of-the-art laboratory facilities.",
+        fac2_t: "Computer Science & IT", fac2_d: "Software engineering, AI, cybersecurity and data science programs aligned with industry needs.",
+        fac3_t: "Law & Political Science", fac3_d: "Training the next generation of legal scholars, diplomats and public policy leaders.",
+        fac4_t: "Economics & Business", fac4_d: "Finance, management and entrepreneurship with a strong focus on the regional economy.",
+        fac5_t: "Humanities", fac5_d: "History, philosophy, literature and linguistics fostering cultural understanding and critical thought.",
+        fac6_t: "Medicine & Health", fac6_d: "Clinical training, biomedical research and public health programmes in partnership with leading hospitals.",
+        gal_label: "Campus Life", gal_title: "Gallery",
+        au_hero_label: "People & Mission",
+        au_hero_title: "About Us",
+        au_hero_desc: "A dedicated team of educators, researchers, and administrators united by a single purpose: advancing human knowledge and shaping a better future.",
+        au_hero_cta: "Contact Us",
+        mis_label: "Why We Exist",
+        mis_title: "Our Mission & Values",
+        mis_p1: "At Horizon University, our mission is to create, preserve, and disseminate knowledge in the service of society. We believe that education is not simply the transfer of information — it is the cultivation of wisdom, character, and the capacity for lifelong learning.",
+        mis_p2: "We are committed to an inclusive environment where students of all backgrounds can discover their potential. Our interdisciplinary approach encourages collaboration across departments, cultures, and borders.",
+        mis_p3: "Through cutting-edge research, community engagement, and global partnerships, Horizon University strives to address the most pressing challenges of our time.",
+        val1_t: "Academic Excellence", val1_d: "Rigorous standards and a culture of scholarly curiosity in every program we offer.",
+        val2_t: "Global Perspective", val2_d: "Partnerships with 86 universities worldwide bring the world to our doorstep.",
+        val3_t: "Inclusivity", val3_d: "Every student deserves equal access to opportunity, support, and recognition.",
+        val4_t: "Innovation", val4_d: "We champion new ideas, entrepreneurial thinking, and applied research.",
+        team_label: "Leadership", team_title: "Our Team",
+        team_lead: "Dedicated professionals driving Horizon University's vision forward every day.",
+        t1_name: "Dr. Aziz Karimov", t1_role: "Rector",
+        t2_name: "Prof. Sabohat Rakhimova", t2_role: "Vice-Rector for Academics",
+        t3_name: "Dr. Timur Yusupov", t3_role: "Head of Research",
+        t4_name: "Dr. Nilufar Ismoilova", t4_role: "Dean of International Relations",
+        t5_name: "Bekzod Mirzaev", t5_role: "Director of Admissions",
+        t6_name: "Zulfiya Xasanova", t6_role: "Chief Communications Officer",
+        con_label: "Get in Touch", con_title: "Contact Information",
+        con_email_l: "Email", con_phone_l: "Phone", con_addr_l: "Address",
+        con_addr_v: "15 University Boulevard, Tashkent, Uzbekistan 100174",
+        con_hours_l: "Office Hours", con_hours_v: "Mon – Fri, 09:00 – 18:00",
+        footer_copy: "© 2024 Horizon University. All rights reserved."
+      },
+      ru: {
+        nav_logo: "Университет Горизонт",
+        nav_university: "Об университете",
+        nav_aboutus: "О нас",
+        hero_label: "Осн. 1948 · Ташкент, Узбекистан",
+        hero_title: "Университет Горизонт",
+        hero_desc: "Формируем лидеров будущего через превосходство в науке, инновациях и международном сотрудничестве.",
+        hero_cta1: "Программы",
+        hero_cta2: "Виртуальный тур",
+        about_label: "Наша история",
+        about_title: "Наследие совершенства",
+        about_p1: "Основанный в 1948 году, Университет Горизонт занимает лидирующие позиции в высшем образовании Центральной Азии уже более семи десятилетий. Из небольшого исследовательского института он вырос в крупный университет, где обучается более 18 000 студентов.",
+        about_p2: "Наши корпуса сочетают историческую архитектуру с современными исследовательскими лабораториями, создавая среду, в которой традиции и инновации живут в гармонии.",
+        about_p3: "Выпускники Университета Горизонт занимают руководящие должности в органах власти, бизнесе, науке и искусстве по всему миру.",
+        fact1_n: "1948", fact1_l: "Год основания",
+        fact2_n: "18 500+", fact2_l: "Студентов",
+        fact3_n: "12", fact3_l: "Факультетов",
+        fact4_n: "86", fact4_l: "Международных партнёров",
+        fac_label: "Академическое превосходство",
+        fac_title: "Наши факультеты",
+        fac_lead: "Двенадцать факультетов охватывают естественные науки, гуманитарные и профессиональные дисциплины.",
+        fac1_t: "Естественные науки", fac1_d: "Физика, химия, биология и науки о Земле с современным лабораторным оборудованием.",
+        fac2_t: "Информатика и ИТ", fac2_d: "Программная инженерия, ИИ, кибербезопасность и анализ данных.",
+        fac3_t: "Право и политология", fac3_d: "Подготовка юристов, дипломатов и специалистов в области государственного управления.",
+        fac4_t: "Экономика и бизнес", fac4_d: "Финансы, менеджмент и предпринимательство с акцентом на региональную экономику.",
+        fac5_t: "Гуманитарные науки", fac5_d: "История, философия, литература и лингвистика для развития культурного понимания.",
+        fac6_t: "Медицина и здоровье", fac6_d: "Клиническая подготовка, биомедицинские исследования и общественное здравоохранение.",
+        gal_label: "Жизнь кампуса", gal_title: "Галерея",
+        au_hero_label: "Люди и миссия",
+        au_hero_title: "О нас",
+        au_hero_desc: "Команда преподавателей, исследователей и администраторов, объединённых одной целью: распространение знаний и построение лучшего будущего.",
+        au_hero_cta: "Связаться",
+        mis_label: "Наша цель",
+        mis_title: "Миссия и ценности",
+        mis_p1: "Миссия Университета Горизонт — создавать, хранить и распространять знания на благо общества. Образование — это не просто передача информации, а воспитание мудрости и характера.",
+        mis_p2: "Мы создаём инклюзивную среду, в которой студенты любого происхождения могут раскрыть свой потенциал через междисциплинарное сотрудничество.",
+        mis_p3: "Через передовые исследования и глобальные партнёрства Университет Горизонт решает актуальные вызовы современности.",
+        val1_t: "Академическое превосходство", val1_d: "Строгие стандарты и культура научной любознательности в каждой программе.",
+        val2_t: "Глобальный взгляд", val2_d: "Партнёрство с 86 университетами мира открывает новые горизонты.",
+        val3_t: "Инклюзивность", val3_d: "Каждый студент заслуживает равного доступа к возможностям и поддержке.",
+        val4_t: "Инновации", val4_d: "Мы поддерживаем новые идеи, предпринимательское мышление и прикладные исследования.",
+        team_label: "Руководство", team_title: "Наша команда",
+        team_lead: "Преданные профессионалы, ежедневно воплощающие видение Университета Горизонт.",
+        t1_name: "Д-р Азиз Каримов", t1_role: "Ректор",
+        t2_name: "Проф. Сабохат Рахимова", t2_role: "Проректор по учебной работе",
+        t3_name: "Д-р Тимур Юсупов", t3_role: "Руководитель научного отдела",
+        t4_name: "Д-р Нилуфар Исмоилова", t4_role: "Декан по международным отношениям",
+        t5_name: "Бекзод Мирзаев", t5_role: "Директор по приёму студентов",
+        t6_name: "Зульфия Хасанова", t6_role: "Директор по коммуникациям",
+        con_label: "Свяжитесь с нами", con_title: "Контактная информация",
+        con_email_l: "Эл. почта", con_phone_l: "Телефон", con_addr_l: "Адрес",
+        con_addr_v: "15 Университетский бульвар, Ташкент, Узбекистан 100174",
+        con_hours_l: "Часы работы", con_hours_v: "Пн – Пт, 09:00 – 18:00",
+        footer_copy: "© 2024 Университет Горизонт. Все права защищены."
+      },
+      uz: {
+        nav_logo: "Gorizont Universiteti",
+        nav_university: "Universitet haqida",
+        nav_aboutus: "Biz haqimizda",
+        hero_label: "1948-yilda asos. · Toshkent, O'zbekiston",
+        hero_title: "Gorizont Universiteti",
+        hero_desc: "Fan, innovatsiya va xalqaro hamkorlik orqali kelajak yetakchilarini shakllantirmoqdamiz.",
+        hero_cta1: "Dasturlar",
+        hero_cta2: "Virtual sayohat",
+        about_label: "Bizning tarix",
+        about_title: "Buyuklik merosi",
+        about_p1: "1948-yilda tashkil etilgan Gorizont Universiteti yetti o'n yildan ortiq vaqt davomida Markaziy Osiyodagi oliy ta'limning ilk safida turadi. U kichik ilmiy-tadqiqot institutidan 18 000 dan ortiq talabaga xizmat ko'rsatadigan yirik universitetga aylangan.",
+        about_p2: "Kampuslarimiz tarixiy me'morchilik va zamonaviy tadqiqot inshootlarini uyg'unlashtiradi, an'anani hurmat qilgan holda innovatsiyani qabul qiladigan muhit yaratadi.",
+        about_p3: "Gorizont Universiteti bitiruvchilari butun dunyo bo'ylab hukumat, biznes, fan va san'atda rahbarlik lavozimlarini egallaydi.",
+        fact1_n: "1948", fact1_l: "Asos solingan yil",
+        fact2_n: "18 500+", fact2_l: "Talabalar",
+        fact3_n: "12", fact3_l: "Fakultet",
+        fact4_n: "86", fact4_l: "Xalqaro hamkorlar",
+        fac_label: "Akademik mukammallik",
+        fac_title: "Bizning fakultetlar",
+        fac_lead: "O'n ikki fakultet — tabiiy fanlar, gumanitar va professional fanlarni qamrab oladi.",
+        fac1_t: "Tabiiy fanlar", fac1_d: "Fizika, kimyo, biologiya va yer fanlari zamonaviy laboratoriyalar bilan.",
+        fac2_t: "Informatika va IT", fac2_d: "Dasturiy muhandislik, sun'iy intellekt, kiberxavfsizlik va ma'lumotlar fani.",
+        fac3_t: "Huquq va siyosatshunoslik", fac3_d: "Huquqshunoslar, diplomatlar va davlat boshqaruvi mutaxassislarini tayyorlash.",
+        fac4_t: "Iqtisodiyot va biznes", fac4_d: "Moliya, menejment va tadbirkorlik mintaqaviy iqtisodiyotga urg'u bilan.",
+        fac5_t: "Gumanitar fanlar", fac5_d: "Tarix, falsafa, adabiyot va tilshunoslik madaniy tushunchani rivojlantiradi.",
+        fac6_t: "Tibbiyot va salomatlik", fac6_d: "Klinik ta'lim, biotibbiy tadqiqotlar va jamoat salomatligi dasturlari.",
+        gal_label: "Kampus hayoti", gal_title: "Galereya",
+        au_hero_label: "Odamlar va missiya",
+        au_hero_title: "Biz haqimizda",
+        au_hero_desc: "O'qituvchilar, tadqiqotchilar va ma'murlar bir maqsad atrofida birlashgan: insoniyat bilimini rivojlantirish va yaxshiroq kelajakni qurish.",
+        au_hero_cta: "Bog'lanish",
+        mis_label: "Nima uchun mavjudmiz",
+        mis_title: "Missiya va qadriyatlar",
+        mis_p1: "Gorizont Universitetining missiyasi — jamiyat manfaati uchun bilimlarni yaratish, saqlash va tarqatish. Ta'lim bu faqat ma'lumot uzatish emas — donishmandlik, xarakter va umrbod o'rganish qobiliyatini rivojlantirish.",
+        mis_p2: "Biz har qanday kelib chiqishdagi talabalar o'z salohiyatini kashf eta oladigan inklyuziv muhit yaratishga intilamiz.",
+        mis_p3: "Ilg'or tadqiqotlar va global hamkorlik orqali Gorizont Universiteti zamonamizning eng dolzarb muammolarini hal etishga intiladi.",
+        val1_t: "Akademik mukammallik", val1_d: "Har bir dasturimizda qat'iy standartlar va ilmiy qiziqish madaniyati.",
+        val2_t: "Global istiqbol", val2_d: "Dunyoning 86 universiteti bilan hamkorlik eshiklarni keng ochadi.",
+        val3_t: "Inklyuzivlik", val3_d: "Har bir talaba imkoniyat va qo'llab-quvvatlashga teng huquqga ega.",
+        val4_t: "Innovatsiya", val4_d: "Yangi g'oyalar, tadbirkorlik tafakkuri va amaliy tadqiqotlarni qo'llab-quvvatlaymiz.",
+        team_label: "Rahbariyat", team_title: "Bizning jamoa",
+        team_lead: "Gorizont Universitetining maqsadlarini har kuni amalga oshirayotgan bag'ishlangan mutaxassislar.",
+        t1_name: "Dr. Aziz Karimov", t1_role: "Rektor",
+        t2_name: "Prof. Sabohat Rahimova", t2_role: "O'quv ishlari bo'yicha prorektori",
+        t3_name: "Dr. Timur Yusupov", t3_role: "Ilmiy-tadqiqot bo'limi boshlig'i",
+        t4_name: "Dr. Nilufar Ismoilova", t4_role: "Xalqaro munosabatlar dekani",
+        t5_name: "Bekzod Mirzayev", t5_role: "Qabul direktori",
+        t6_name: "Zulfiya Xasanova", t6_role: "Kommunikatsiyalar direktori",
+        con_label: "Bog'lanish", con_title: "Aloqa ma'lumotlari",
+        con_email_l: "Elektron pochta", con_phone_l: "Telefon", con_addr_l: "Manzil",
+        con_addr_v: "15 Universitet Bulvari, Toshkent, O'zbekiston 100174",
+        con_hours_l: "Ish vaqti", con_hours_v: "Du – Ju, 09:00 – 18:00",
+        footer_copy: "© 2024 Gorizont Universiteti. Barcha huquqlar himoyalangan."
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+      // sync all lang selects
+      document.querySelectorAll('.lang-select').forEach(s => s.value = lang);
+    }
+
+    // Initial reveal on load
+    window.addEventListener('load', () => {
+      checkReveal();
+    });
+  </script>
+  <p>Created by Zafar(Frost)</p>
+</body>
+</html>
